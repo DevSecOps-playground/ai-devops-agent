@@ -8,13 +8,13 @@ import subprocess
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client=OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def run_tests():
     result = subprocess.run(
         ["pytest"],
-        capture_output = True, 
-        text = True
+        capture_output=True, 
+        text=True
     )
     return result.stdout
 
@@ -23,11 +23,14 @@ def detect_failure(log):
 
 def analyze_log(log):
     response = client.chat.completions.create(
-        model = "gpt-4.1-mini", 
-        messages= [
-            {"role": "system", "content" : "You are DevOps expert"},
-            {"role" : "user", "content": f"Analyze the following test log and provide a detailed explanation of the failure: {log}" }
-        ]
+        model="gpt-4.1-mini",
+        messages=[
+            {"role": "system", "content": "You are DevOps expert"},
+            {
+                "role": "user",
+                "content": f"Analyze the following test log and provide a detailed explanation of the failure: {log}",
+            },
+        ],
     )
     return response.choices[0].message.content
 
