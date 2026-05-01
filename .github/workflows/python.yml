@@ -31,4 +31,5 @@ jobs:
       - name: Run AI Agent
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PYTHONPATH: ${{ github.workspace }}
         run: python runner.py
