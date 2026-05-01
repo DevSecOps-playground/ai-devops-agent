@@ -43,7 +43,5 @@ def agent():
     else:
         print("\n✅ Tests passed")
 
-# if __name__ == "__main__":
-#     agent()
-
-agent()
+if __name__ == "__main__":
+    agent()
