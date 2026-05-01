@@ -7,6 +7,7 @@
 import subprocess
 import os
 from openai import OpenAI
+import requests
 
 client=OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -49,8 +50,47 @@ def agent():
         print("Explanation:")
         print(explaintaion)
 
+        post_pr_comment(f"❌ **Tests Failed**\n\n🧠 AI Analysis:\n{explanation}")
+
     else:
         print("\n✅ Tests passed")
 
+def post_pr_comment(message):
+    repo = os.getenv("GITHUB_REPOSITORY")
+    token = os.getenv("GITHUB_TOKEN")
+    event_path = os.getenv("GITHUB_EVENT_PATH")
+
+    if not event_path:
+        print("No PR context found.")
+        return
+
+    import json
+    with open(event_path, "r") as f:
+        event = json.load(f)
+
+    pr_number = event.get("pull_request", {}).get("number")
+
+    if not pr_number:
+        print("Not a pull request event.")
+        return
+
+    url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    data = {
+        "body": message
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    print("PR comment status:", response.status_code)
+
+
 if __name__ == "__main__":
     agent()
+
+
