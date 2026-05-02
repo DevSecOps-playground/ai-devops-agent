@@ -72,9 +72,10 @@ def agent():
         ---
         _This comment is auto-updated by AI agent_
         """
-        print(message)
-
-        post_pr_comment(f"❌ **Tests Failed**\n\n🧠 AI Analysis:\n{explaintaion}")
+        try:
+            post_pr_comment(message)
+        except Exception as e:
+            print("Comment failed:", str(e))
 
     else:
         print("\n✅ Tests passed")
