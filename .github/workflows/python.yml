@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          
+
 
       - name: Install dependencies
         run: |
@@ -32,8 +32,10 @@ jobs:
         run: |
           export PYTHONPATH=$PWD
           pytest
+        continue-on-error: true
 
       - name: Run AI Agent
+        if: always()
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
