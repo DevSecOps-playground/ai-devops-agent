@@ -67,7 +67,7 @@ def agent():
 
         ❌ Tests Failed
 
-        {explanation}
+        {explaintaion}
 
         ---
         _This comment is auto-updated by AI agent_
