@@ -56,6 +56,10 @@ def agent():
         print("\n✅ Tests passed")
 
 def post_pr_comment(message):
+    print("Repo:", repo)
+    print("Event path:", event_path)
+    print("PR number:", pr_number)
+
     repo = os.getenv("GITHUB_REPOSITORY")
     token = os.getenv("GITHUB_TOKEN")
     event_path = os.getenv("GITHUB_EVENT_PATH")
