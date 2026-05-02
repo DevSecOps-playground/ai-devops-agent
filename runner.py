@@ -52,7 +52,7 @@ def agent():
         print(explaintaion)
 
         print("----------POST PR COMMENT----------")
-        post_pr_comment(f"❌ **Tests Failed**\n\n🧠 AI Analysis:\n{explanation}")
+        post_pr_comment(f"❌ **Tests Failed**\n\n🧠 AI Analysis:\n{explaintaion}")
 
     else:
         print("\n✅ Tests passed")
