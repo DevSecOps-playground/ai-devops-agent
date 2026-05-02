@@ -58,27 +58,28 @@ def agent():
         print("\n✅ Tests passed")
 
 def post_pr_comment(message):
+    print("----------POST PR COMMENT----------")
 
     repo = os.getenv("GITHUB_REPOSITORY")
     token = os.getenv("GITHUB_TOKEN")
     event_path = os.getenv("GITHUB_EVENT_PATH")
-    
+
     print("Repo:", repo)
     print("Event path:", event_path)
-    print("PR number:", pr_number)
 
     if not event_path:
-        print("No PR context found.")
+        print("No event path found")
         return
 
-    import json
     with open(event_path, "r") as f:
         event = json.load(f)
 
     pr_number = event.get("pull_request", {}).get("number")
 
+    print("PR number:", pr_number)
+
     if not pr_number:
-        print("Not a pull request event.")
+        print("Not a PR event. Skipping comment.")
         return
 
     url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
@@ -94,10 +95,14 @@ def post_pr_comment(message):
 
     response = requests.post(url, headers=headers, json=data)
 
-    print("PR comment status:", response.status_code)
+    print("Status:", response.status_code)
+    print("Response:", response.text)
 
 
 if __name__ == "__main__":
-    agent()
+    try:
+        agent()
+    except Exception as e:
+        print("Agent error:", str(e))
 
 
