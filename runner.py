@@ -44,12 +44,14 @@ def agent():
     print("----------TEST RESULTS----------")
     print(log)
 
+    print("----------DETECTING FAILURE----------: ", detect_failure(log))
     if detect_failure(log):
         print("\n❌ Tests failed. Analyzing...\n")
         explaintaion = analyze_log(log)
         print("Explanation:")
         print(explaintaion)
 
+        print("----------POST PR COMMENT----------")
         post_pr_comment(f"❌ **Tests Failed**\n\n🧠 AI Analysis:\n{explanation}")
 
     else:
